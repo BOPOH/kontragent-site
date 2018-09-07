@@ -18,6 +18,9 @@ use Yii;
  */
 class Transaction extends \yii\db\ActiveRecord
 {
+    const TYPE_DEPOSIT = 0;
+    const TYPE_WITHDRAWAL = 1;
+
     /**
      * {@inheritdoc}
      */

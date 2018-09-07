@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "630d5f1d19e73b0163f900453171fba5",
+    "content-hash": "fc575eb1a0905589a05ddb0ea44878cf",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -324,6 +324,101 @@
                 "html"
             ],
             "time": "2018-02-23T01:58:20+00:00"
+        },
+        {
+            "name": "nox-it/yii2-nox",
+            "version": "1.0.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nox-it/yii2-nox.git",
+                "reference": "70ed65c83e5955ad25a5c4df4917fc52b25ccd7d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nox-it/yii2-nox/zipball/70ed65c83e5955ad25a5c4df4917fc52b25ccd7d",
+                "reference": "70ed65c83e5955ad25a5c4df4917fc52b25ccd7d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0",
+                "yiisoft/yii2": "2.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "nox\\": "base"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Jonatas Sas",
+                    "email": "atendimento@jsas.com.br"
+                }
+            ],
+            "description": "Yii2 NOX Base",
+            "keywords": [
+                "extension",
+                "framework",
+                "php",
+                "yii2"
+            ],
+            "time": "2017-05-27T12:45:41+00:00"
+        },
+        {
+            "name": "nox-it/yii2-nox-spreadsheet-reader",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nox-it/yii2-nox-spreadsheet-reader.git",
+                "reference": "2c2ebbb95eba9713eeb799fb87e9a2c4eb26643d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nox-it/yii2-nox-spreadsheet-reader/zipball/2c2ebbb95eba9713eeb799fb87e9a2c4eb26643d",
+                "reference": "2c2ebbb95eba9713eeb799fb87e9a2c4eb26643d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-zip": "*",
+                "nox-it/yii2-nox": "1.*",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "./"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonatas Sas",
+                    "email": "atendimento@jsas.com.br"
+                },
+                {
+                    "name": "Martins Pilsetnieks"
+                }
+            ],
+            "description": "Spreadsheet reader library for Excel, OpenOffice and structured text files. Based on the Martins Pilsetnieks version.",
+            "keywords": [
+                "OpenOffice",
+                "csv",
+                "excel",
+                "extension",
+                "ods",
+                "spreadsheet",
+                "xls",
+                "xlsx",
+                "yii2"
+            ],
+            "time": "2017-05-27T17:02:33+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
