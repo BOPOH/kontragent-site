@@ -59,10 +59,30 @@ class Transaction extends \yii\db\ActiveRecord
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function beforeValidate()
+    {
+        if ($this->stamp != null) {
+            $formattedStamp = date('Y-m-d H:i:s', strtotime($this->stamp));
+            $this->stamp = $formattedStamp;
+        }
+        return parent::beforeValidate();
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getInvoice()
     {
         return $this->hasOne(Invoice::className(), ['id' => 'invoice_id']);
+    }
+
+    /**
+     * @return string
+     */
+    public function getTypeName()
+    {
+        return $this->type == 0 ? 'Deposit' : 'Withdrawal';
     }
 }

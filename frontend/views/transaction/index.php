@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
@@ -23,13 +24,35 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'invoice_id',
-            'stamp',
-            'type',
+            [
+                'attribute' => 'type',
+                'label' => 'Type',
+                'format' => 'text', // raw, html
+                'content' => function($data) {
+                    return $data->typeName;
+                },
+                'filter' => [$searchModel::TYPE_DEPOSIT => 'Deposit', $searchModel::TYPE_WITHDRAWAL => 'Withdrawal'],
+            ],
             'amount',
-            //'balance_after',
+            'balance_after',
+            [
+                'attribute' => 'stamp',
+                'value' => 'stamp',
+                'filter' => \yii\jui\DatePicker::widget([
+                    'model'=> $searchModel,
+                    'attribute'=>'stamp',
+                    'dateFormat' => 'yyyy-MM-dd',
+                ]),
+                'format' => 'html',
+            ],
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view}',
+                'urlCreator' => function ($action, $model, $key, $index) {
+                    return Url::to(['transaction/'.$action, 'id' => $model->id]);
+                },
+            ],
         ],
     ]); ?>
     <?php Pjax::end(); ?>
