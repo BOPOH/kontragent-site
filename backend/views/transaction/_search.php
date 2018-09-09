@@ -28,7 +28,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'amount') ?>
 
-    <?php // echo $form->field($model, 'balance_after') ?>
+    <?= $form->field($model, 'balance_after') ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>

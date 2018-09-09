@@ -8,14 +8,14 @@ use yii\widgets\Pjax;
 /* @var $searchModel common\models\TransactionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Transactions');
+$this->title = sprintf(Yii::t('app', '%s\'s transactions'), $user->username);
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Transactions'), 'url' => ['transaction/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="transaction-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php Pjax::begin(); ?>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -24,14 +24,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            [
-                'attribute' => 'invoice_id',
-                'label' => 'Invoice Owner',
-                'format' => 'text', // raw, html
-                'content' => function($data) {
-                    return $data->invoice ? $data->invoice->user->username : '-';
-                },
-            ],
             [
                 'attribute' => 'type',
                 'label' => 'Type',

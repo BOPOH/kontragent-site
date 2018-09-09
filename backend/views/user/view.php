@@ -12,6 +12,11 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-view">
 
+    <p>
+        <?= Html::a(Yii::t('app', 'User\'s transaction'), ['/transaction/user', 'id' => $model->ID], ['class' => 'btn btn-primary']) ?>
+    </p>
+
+
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?= DetailView::widget([
