@@ -87,16 +87,18 @@ class Import extends Model
 
         $user = $this->importUser($row);
         $invoice = $this->importInvoice($user, $row);
-        $transaction = $this->importTransaction($invoice, $row);
+        $transaction = $this->importTransaction($user, $invoice, $row);
     }
 
     protected function isTransactionExists($row)
     {
         return Transaction::find()
+            ->with('user')
             ->where(['amount' => $row['transaction-amount']])
             ->andWhere(['stamp' => $row['transaction-stamp']])
             ->andWhere(['type' => $row['transaction-type']])
             ->andWhere(['invoice_id' => $row['invoice-id']])
+            ->andWhere(['user.email' => $row['kontragent-email']])
             ->exists();
     }
 
@@ -120,12 +122,20 @@ class Import extends Model
             $user->email = $row['kontragent-email'];
             $user->setPassword(Yii::$app->security->generateRandomString());
             $user->generateAuthKey();
-            $user->save();
-
-            $auth = Yii::$app->authManager;
-            $kontragentRole = $auth->getRole('kontragent');
-            $auth->assign($kontragentRole, $user->getId());
+            $user->balance = 0;
         }
+
+        if ($row['transaction-type'] == Transaction::TYPE_DEPOSIT) {
+            $user->balance -= $row['transaction-amount'];
+        } elseif ($row['transaction-type'] == Transaction::TYPE_WITHDRAWAL) {
+            $user->balance += $row['transaction-amount'];
+        }
+
+        $user->save()
+        $auth = Yii::$app->authManager;
+        $kontragentRole = $auth->getRole('kontragent');
+        $auth->assign($kontragentRole, $user->getId());
+
         return $user;
     }
 
@@ -148,14 +158,14 @@ class Import extends Model
         return $invoice;
     }
 
-    protected function importTransaction(Invoice $invoice, $row)
+    protected function importTransaction(User $user, Invoice $invoice, $row)
     {
         $transaction = new Transaction();
         $transaction->invoice_id = $invoice->id;
         $transaction->type = $row['transaction-type'];
         $transaction->amount = $row['transaction-amount'];
         $transaction->stamp = $row['transaction-stamp'];
-        $transaction->balance_after = $invoice->balance;
+        $transaction->balance_after = $user->balance;
         $transaction->save();
     }
 }

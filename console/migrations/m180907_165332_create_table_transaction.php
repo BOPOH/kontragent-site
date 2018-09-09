@@ -14,6 +14,7 @@ class m180907_165332_create_table_transaction extends Migration
         $this->createTable('{{%transaction}}', [
             'id' => $this->primaryKey()->unsigned(),
             'invoice_id' => $this->integer()->unsigned()->notNull(),
+            'user_id' => $this->integer()->unsigned()->notNull(),
             'stamp' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
             'type' => $this->tinyInteger()->unsigned()->notNull()->defaultValue('0'),
             'amount' => $this->bigInteger()->unsigned()->notNull()->defaultValue('0'),

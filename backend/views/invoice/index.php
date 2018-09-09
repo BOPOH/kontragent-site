@@ -24,14 +24,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            [
-                'attribute' => 'user_id',
-                'label' => 'Invoice Owner',
-                'format' => 'text', // raw, html
-                'content' => function($data) {
-                    return $data->user->username;
-                },
-            ],
             'balance',
 
             [

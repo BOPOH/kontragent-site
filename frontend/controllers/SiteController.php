@@ -68,7 +68,7 @@ class SiteController extends Controller
         $searchModel = new TransactionSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $dataProvider->query->andFilterWhere([
-            'invoice.user_id' => Yii::$app->user->ID,
+            'user_id' => Yii::$app->user->ID,
         ]);
 
         return $this->render('index', [

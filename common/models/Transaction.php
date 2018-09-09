@@ -9,6 +9,7 @@ use Yii;
  *
  * @property int $id
  * @property int $invoice_id
+ * @property int $user_id
  * @property string $stamp
  * @property int $type
  * @property string $amount
@@ -36,10 +37,10 @@ class Transaction extends \yii\db\ActiveRecord
     {
         return [
             [['invoice_id'], 'required'],
-            [['invoice_id', 'type', 'amount', 'balance_after'], 'default', 'value' => null],
-            [['invoice_id', 'type', 'amount', 'balance_after'], 'integer'],
+            [['invoice_id', 'user_id', 'type', 'amount', 'balance_after'], 'default', 'value' => null],
+            [['invoice_id', 'user_id', 'type', 'amount', 'balance_after'], 'integer'],
             [['stamp'], 'safe'],
-            [['invoice_id'], 'exist', 'skipOnError' => true, 'targetClass' => Invoice::className(), 'targetAttribute' => ['invoice_id' => 'id']],
+            [['invoice_id', 'user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Invoice::className(), 'targetAttribute' => ['invoice_id' => 'id']],
         ];
     }
 
@@ -51,6 +52,7 @@ class Transaction extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'invoice_id' => 'Invoice ID',
+            'user_id' => 'Invoice ID',
             'stamp' => 'Stamp',
             'type' => 'Type',
             'amount' => 'Amount',
@@ -76,6 +78,14 @@ class Transaction extends \yii\db\ActiveRecord
     public function getInvoice()
     {
         return $this->hasOne(Invoice::className(), ['id' => 'invoice_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
     /**

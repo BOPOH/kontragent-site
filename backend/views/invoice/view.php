@@ -22,14 +22,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-             [
-                'attribute' => 'user_id',
-                'label' => 'User',
-                'format' => 'text', // raw, html
-                'value' => function($data) {
-                    return $data->user->username;
-                },
-            ],
             'balance',
         ],
     ]) ?>

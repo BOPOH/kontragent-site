@@ -18,10 +18,7 @@ $this->title = 'My Yii Application';
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(
-                sprintf(Yii::t('app', 'Your balance: %s'), $user->invoice ? $user->invoice->balance : 0),
-                ['invoice/view', 'id' => $user->invoice ? $user->invoice->id : null]
-            ) ?>
+        <?= sprintf(Yii::t('app', 'Your balance: %s'), $user->balance); ?>
     </p>
 
     <?= GridView::widget([

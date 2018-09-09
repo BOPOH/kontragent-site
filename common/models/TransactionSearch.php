@@ -42,7 +42,8 @@ class TransactionSearch extends Transaction
     public function search($params)
     {
         $query = Transaction::find();
-        $query->joinWith('invoice.user AS user');
+        $query->joinWith('invoice');
+        $query->joinWith('user');
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -52,7 +53,8 @@ class TransactionSearch extends Transaction
         $dataProvider->setSort([
             'attributes' => [
                 'id',
-                'invoice_id' => [
+                'invoice_id',
+                'user_id' => [
                     'asc' => ['user.username' => SORT_ASC],
                     'desc' => ['user.username' => SORT_DESC],
                 ],
@@ -73,6 +75,7 @@ class TransactionSearch extends Transaction
         // grid filtering conditions
         $query->andFilterWhere([
             'transaction.id' => $this->id,
+            'invoice.id' => $this->invoice_id,
             'type' => $this->type,
             'amount' => $this->amount,
             'balance_after' => $this->balance_after,
@@ -85,7 +88,7 @@ class TransactionSearch extends Transaction
             $end = $date->format('Y-m-d H:i:s');
             $query->andFilterWhere(['between', 'stamp', $start, $end]);
         }
-        $query->andFilterWhere(['like', 'user.username', $this->invoice_id]);
+        $query->andFilterWhere(['like', 'user.username', $this->user_id]);
 
         return $dataProvider;
     }

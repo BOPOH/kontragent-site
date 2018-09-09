@@ -13,12 +13,8 @@ class m180907_165332_create_table_invoice extends Migration
 
         $this->createTable('{{%invoice}}', [
             'id' => $this->primaryKey()->unsigned(),
-            'user_id' => $this->integer()->notNull(),
             'balance' => $this->bigInteger()->unsigned()->notNull()->defaultValue('0'),
         ], $tableOptions);
-
-        $this->createIndex('user_id', '{{%invoice}}', 'user_id');
-        $this->addForeignKey('invoice_key', '{{%invoice}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'CASCADE');
     }
 
     public function down()

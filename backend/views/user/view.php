@@ -14,9 +14,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a(Yii::t('app', 'User\'s transaction'), ['/transaction/user', 'id' => $model->ID], ['class' => 'btn btn-primary']) ?>
-        <?php if ($model->invoice): ?>
-        <?= Html::a(Yii::t('app', 'Invoice info'), ['/invoice/view', 'id' => $model->invoice->id], ['class' => 'btn btn-primary']) ?>
-        <?php endif; ?>
     </p>
 
 
@@ -28,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'username',
             'email:email',
-            'invoice.balance',
+            'balance',
         ],
     ]) ?>
 

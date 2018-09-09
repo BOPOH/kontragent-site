@@ -18,7 +18,7 @@ class UserSearch extends User
     public function rules()
     {
         return [
-            [['id', 'invoice_id'], 'integer'],
+            [['id', 'balance'], 'integer'],
             [['username', 'email'], 'safe'],
         ];
     }
@@ -42,7 +42,7 @@ class UserSearch extends User
     public function search($params)
     {
         $query = User::find();
-        $query->joinWith('invoice');
+
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -60,17 +60,12 @@ class UserSearch extends User
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'balance' => $this->balance,
         ]);
 
         $query->andFilterWhere(['ilike', 'username', $this->username])
             ->andFilterWhere(['ilike', 'email', $this->email]);
-        if (is_numeric($this->invoice_id)) {
-            $invoiceConditions = ['or', ['invoice.balance' => $this->invoice_id]];
-            if (!$this->invoice_id) {
-                $invoiceConditions[] = ['invoice.balance' => null];
-            }
-            $query->andWhere($invoiceConditions);
-        }
+
         return $dataProvider;
     }
 }

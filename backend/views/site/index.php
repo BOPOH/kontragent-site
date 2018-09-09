@@ -24,14 +24,7 @@ $this->title = 'Test Application';
             'id',
             'username',
             'email:email',
-             [
-                'attribute' => 'invoice_id',
-                'label' => 'Balance',
-                'format' => 'text', // raw, html
-                'content' => function($data) {
-                    return $data->invoice ? $data->invoice->balance : 0;
-                },
-            ],
+            'balance',
 
             [
                 'class' => 'yii\grid\ActionColumn',

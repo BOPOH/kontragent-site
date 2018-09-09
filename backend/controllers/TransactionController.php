@@ -62,7 +62,7 @@ class TransactionController extends Controller
         $searchModel = new TransactionSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $dataProvider->query->andFilterWhere([
-            'invoice.user_id' => $id,
+            'user_id' => $id,
         ]);
 
         return $this->render('user', [
