@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\User;
+use common\models\Invoice;
 use common\models\Transaction;
 use common\models\TransactionSearch;
 use yii\web\Controller;
@@ -56,6 +57,29 @@ class TransactionController extends Controller
 
         return $this->render('user', [
             'user' => $user,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
+     * Lists the invoice transaction models.
+     * @return mixed
+     */
+    public function actionInvoice($id)
+    {
+        if (!$invoice = Invoice::findOne($id)) {
+            throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+        }
+
+        $searchModel = new TransactionSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->query->andFilterWhere([
+            'invoice_id' => $id,
+        ]);
+
+        return $this->render('invoice', [
+            'invoice' => $invoice,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);

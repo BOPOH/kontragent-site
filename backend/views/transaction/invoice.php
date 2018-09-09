@@ -5,11 +5,11 @@ use yii\helpers\Url;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
-/* @var $user common\models\User */
+/* @var $invoice common\models\Invoice */
 /* @var $searchModel common\models\TransactionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = sprintf(Yii::t('app', '%s\'s transactions'), $user->username);
+$this->title = sprintf(Yii::t('app', '%s\'s invoice #%s transactions'), $invoice->user->username, $invoice->id);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Transactions'), 'url' => ['transaction/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

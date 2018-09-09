@@ -14,6 +14,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
+    <p>
+        <?= Html::a(Yii::t('app', 'Transactions'), ['transaction/invoice', 'id' => $model->id]) ?>
+    </p>
+
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
