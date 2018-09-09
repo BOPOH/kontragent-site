@@ -121,6 +121,10 @@ class Import extends Model
             $user->setPassword(Yii::$app->security->generateRandomString());
             $user->generateAuthKey();
             $user->save();
+
+            $auth = Yii::$app->authManager;
+            $kontragentRole = $auth->getRole('kontragent');
+            $auth->assign($kontragentRole, $user->getId());
         }
         return $user;
     }
