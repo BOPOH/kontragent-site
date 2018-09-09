@@ -9,7 +9,7 @@ use common\models\Transaction;
 use common\models\TransactionSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * TransactionController implements the CRUD actions for Transaction model.
@@ -21,7 +21,17 @@ class TransactionController extends Controller
      */
     public function behaviors()
     {
-        return [];
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['viewTransactions'],
+                    ],
+                ],
+            ],
+        ];
     }
 
     /**

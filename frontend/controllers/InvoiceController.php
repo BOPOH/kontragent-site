@@ -7,7 +7,7 @@ use common\models\Invoice;
 use common\models\InvoiceSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * InvoiceController implements the CRUD actions for Invoice model.
@@ -19,7 +19,17 @@ class InvoiceController extends Controller
      */
     public function behaviors()
     {
-        return [];
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['viewInvoices'],
+                    ],
+                ],
+            ],
+        ];
     }
 
     /**
