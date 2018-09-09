@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model common\models\Transaction */
 
-$this->title = sprintf(Yii::t('app', 'Transaction #%s for %s invoice'), $model->id,  $model->invoice->user->username);
+$this->title = sprintf(Yii::t('app', 'Transaction #%s for invoice #%s'), $model->id, $model->invoice->id);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Transactions'), 'url' => ['transaction/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -18,6 +18,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
+            [
+                'attribute' => 'invoice_id',
+                'label' => 'Invoice',
+                'format' => 'html',
+                'value' => function($data) {
+                    return Html::a(sprintf('Invoice #%s', $data->invoice_id), ['invoice/view', 'id' => $data->invoice_id]);
+                },
+            ],
             'stamp',
              [
                 'attribute' => 'type',
@@ -28,6 +36,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
             'amount',
+            [
+                'attribute' => 'user_id',
+                'label' => 'User',
+                'format' => 'html', // raw, html
+                'value' => function($data) {
+                    return Html::a($data->user->username, ['user/view', 'id' => $data->user->id]);
+                },
+            ],
             'balance_after',
         ],
     ]) ?>

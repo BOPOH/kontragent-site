@@ -52,7 +52,7 @@ class Transaction extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'invoice_id' => 'Invoice ID',
-            'user_id' => 'Invoice ID',
+            'user_id' => 'User ID',
             'stamp' => 'Stamp',
             'type' => 'Type',
             'amount' => 'Amount',

@@ -26,6 +26,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             [
+                'attribute' => 'invoice_id',
+                'label' => 'Invoice',
+                'format' => 'html', // raw, html
+                'content' => function($data) {
+                    return Html::a(sprintf('Invoice #%s', $data->invoice_id), ['invoice/view', 'id' => $data->invoice_id]);
+                },
+            ],
+            [
                 'attribute' => 'type',
                 'label' => 'Type',
                 'format' => 'text', // raw, html

@@ -9,7 +9,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel common\models\TransactionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = sprintf(Yii::t('app', '%s\'s invoice #%s transactions'), $invoice->user->username, $invoice->id);
+$this->title = sprintf(Yii::t('app', 'Invoice #%s transactions'), $invoice->id);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Transactions'), 'url' => ['transaction/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -35,6 +35,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter' => [$searchModel::TYPE_DEPOSIT => 'Deposit', $searchModel::TYPE_WITHDRAWAL => 'Withdrawal'],
             ],
             'amount',
+            [
+                'attribute' => 'user_id',
+                'label' => 'User',
+                'format' => 'html', // raw, html
+                'content' => function($data) {
+                    return Html::a($data->user->username, ['user/view', 'id' => $data->user->id]);
+                },
+            ],
             'balance_after',
             [
                 'attribute' => 'stamp',

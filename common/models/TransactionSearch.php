@@ -20,6 +20,7 @@ class TransactionSearch extends Transaction
         return [
             [['id', 'invoice_id', 'type', 'amount', 'balance_after'], 'integer'],
             [['stamp'], 'datetime', 'format' => 'yyyy-M-d H:m:s'],
+            [['user_id'], 'string'],
         ];
     }
 

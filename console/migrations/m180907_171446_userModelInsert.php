@@ -27,7 +27,6 @@ class m180907_171446_userModelInsert extends Migration
         $model = new User();
         $model->setAttributes(
             [
-    'id' => '1',
     'username' => 'admin',
     'auth_key' => '',
     'password_hash' => '$2y$13$bTD4BR57RgQqfCbhrB5eZ.uDRuLJMMEyBAHOhdo9Yp7kOP58UNStu',
@@ -43,6 +42,10 @@ class m180907_171446_userModelInsert extends Migration
                 .VarDumper::dumpAsString($model->getAttributes()).' with errors '
                 .VarDumper::dumpAsString($model->getErrors()));
                 throw new Exception('Fail save $model');
+        } else {
+            $auth = Yii::$app->authManager;
+            $adminRole = $auth->getRole('admin');
+            $auth->assign($adminRole, $model->getId());
         }
     }
 

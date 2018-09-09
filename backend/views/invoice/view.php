@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model common\models\Invoice */
 
-$this->title = sprintf(Yii::t('app', '%s\'s invoice #%s'), $model->user->username, $model->id);
+$this->title = sprintf(Yii::t('app', 'Invoice #%s'), $model->id);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Invoices'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

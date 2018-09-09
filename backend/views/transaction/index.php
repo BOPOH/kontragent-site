@@ -26,10 +26,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             [
                 'attribute' => 'invoice_id',
-                'label' => 'Invoice Owner',
-                'format' => 'text', // raw, html
+                'label' => 'Invoice',
+                'format' => 'html', // raw, html
                 'content' => function($data) {
-                    return $data->invoice ? $data->invoice->user->username : '-';
+                    return Html::a(sprintf('Invoice #%s', $data->invoice_id), ['invoice/view', 'id' => $data->invoice_id]);
                 },
             ],
             [
@@ -42,6 +42,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter' => [$searchModel::TYPE_DEPOSIT => 'Deposit', $searchModel::TYPE_WITHDRAWAL => 'Withdrawal'],
             ],
             'amount',
+            [
+                'attribute' => 'user_id',
+                'label' => 'User',
+                'format' => 'html', // raw, html
+                'content' => function($data) {
+                    return Html::a($data->user->username, ['user/view', 'id' => $data->user->id]);
+                },
+            ],
             'balance_after',
             [
                 'attribute' => 'stamp',
