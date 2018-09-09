@@ -8,9 +8,11 @@ use yii\widgets\Pjax;
 /* @var $searchModel common\models\UserSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Test Application';
+$this->title = Yii::t('app', 'Users');
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-index">
+<div class="user-index">
+
     <h1><?= Html::encode($this->title) ?></h1>
     <?php Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -24,14 +26,6 @@ $this->title = 'Test Application';
             'id',
             'username',
             'email:email',
-             [
-                'attribute' => 'invoice_id',
-                'label' => 'Balance',
-                'format' => 'text', // raw, html
-                'content' => function($data) {
-                    return $data->invoice ? $data->invoice->balance : 0;
-                },
-            ],
 
             [
                 'class' => 'yii\grid\ActionColumn',
