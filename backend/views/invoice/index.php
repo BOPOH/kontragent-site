@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
@@ -23,10 +24,23 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'user_id',
+            [
+                'attribute' => 'user_id',
+                'label' => 'Invoice Owner',
+                'format' => 'text', // raw, html
+                'content' => function($data) {
+                    return $data->user->username;
+                },
+            ],
             'balance',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view}',
+                'urlCreator' => function ($action, $model, $key, $index) {
+                    return Url::to(['invoice/'.$action, 'id' => $model->id]);
+                },
+            ],
         ],
     ]); ?>
     <?php Pjax::end(); ?>
