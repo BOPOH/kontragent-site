@@ -7,6 +7,8 @@ use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\TransactionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $user common\models\User */
+$user = Yii::$app->user->identity;
 
 $this->title = 'My Yii Application';
 ?>
@@ -15,6 +17,12 @@ $this->title = 'My Yii Application';
     <?php Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
+    <p>
+        <?= Html::a(
+                sprintf(Yii::t('app', 'Your balance: %s'), $user->invoice ? $user->invoice->balance : 0),
+                ['invoice/view', 'id' => $user->invoice ? $user->invoice->id : null]
+            ) ?>
+    </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

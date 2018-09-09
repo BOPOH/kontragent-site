@@ -25,7 +25,7 @@ class InvoiceController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['viewInvoices'],
+                        'roles' => ['@'],
                     ],
                 ],
             ],
@@ -40,6 +40,9 @@ class InvoiceController extends Controller
     {
         $searchModel = new InvoiceSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->query->andFilterWhere([
+            'user_id' => Yii::$app->user->ID,
+        ]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -53,10 +56,26 @@ class InvoiceController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionView($id = null)
     {
+        if (is_null($id)) {
+            $model = Invoice::find()
+                    ->where(['user_id' => Yii::$app->user->ID])
+                    ->one();
+            if (!$model) {
+                $model = new Invoice();
+                $model->user_id = Yii::$app->user->ID;
+                $model->balance = 0;
+                $model->save();
+            }
+        } else {
+            $model = $this->findModel($id);
+        }
+        if ($model->user->ID != Yii::$app->user->ID) {
+            throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+        }
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
         ]);
     }
 

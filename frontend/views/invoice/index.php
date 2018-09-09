@@ -26,7 +26,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'user_id',
             'balance',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view}',
+                'urlCreator' => function ($action, $model, $key, $index) {
+                    return Url::to(['invoice/'.$action, 'id' => $model->id]);
+                },
+            ],
         ],
     ]); ?>
     <?php Pjax::end(); ?>

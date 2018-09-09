@@ -25,7 +25,7 @@ class TransactionController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['viewTransactions'],
+                        'roles' => ['@'],
                     ],
                 ],
             ],
@@ -40,6 +40,28 @@ class TransactionController extends Controller
     {
         $searchModel = new TransactionSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->query->andFilterWhere([
+            'invoice.user_id' => Yii::$app->user->ID,
+        ]);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
+     * Lists Transaction models for given invoice.
+     * @return mixed
+     */
+    public function actionByInvoice($invoice_id = null)
+    {
+        $searchModel = new TransactionSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->query->andFilterWhere([
+            'invoice.user_id' => Yii::$app->user->ID,
+            'invoice_id' => $invoice_id,
+        ]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -55,8 +77,12 @@ class TransactionController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        if ($model->invoice->user->ID != Yii::$app->user->ID) {
+            throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+        }
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
         ]);
     }
 
