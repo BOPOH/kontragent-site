@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use Yii;
 use common\models\Transaction;
 use common\models\TransactionSearch;
+use yii\db\ActiveRecord;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
@@ -82,6 +83,35 @@ class TransactionController extends Controller
             throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
         }
         return $this->render('view', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Creates a new Transaction model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionCreate()
+    {
+        $model = new Transaction();
+
+        $model->attachBehavior('stamp', [
+            'class' => \yii\behaviors\TimestampBehavior::className(),
+            'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['stamp'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['stamp'],
+            ],
+            'value' => date('Y-m-d H:i:s'),
+        ]);
+
+        $data = Yii::$app->request->post();
+        $data['Transaction']['user_id'] = Yii::$app->user->ID;
+        if ($model->load($data) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+        return $this->render('create', [
             'model' => $model,
         ]);
     }

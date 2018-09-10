@@ -123,20 +123,13 @@ class Import extends Model
             $user->setPassword(Yii::$app->security->generateRandomString());
             $user->generateAuthKey();
             $user->balance = 0;
-
             $user->save();
+
             $auth = Yii::$app->authManager;
             $kontragentRole = $auth->getRole('kontragent');
             $auth->assign($kontragentRole, $user->getId());
         }
 
-        if ($row['transaction-type'] == Transaction::TYPE_DEPOSIT) {
-            $user->balance -= $row['transaction-amount'];
-        } elseif ($row['transaction-type'] == Transaction::TYPE_WITHDRAWAL) {
-            $user->balance += $row['transaction-amount'];
-        }
-
-        $user->save();
         return $user;
     }
 
@@ -167,7 +160,6 @@ class Import extends Model
         $transaction->type = $row['transaction-type'];
         $transaction->amount = $row['transaction-amount'];
         $transaction->stamp = $row['transaction-stamp'];
-        $transaction->balance_after = $user->balance;
         $transaction->save();
     }
 }

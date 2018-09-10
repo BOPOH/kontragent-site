@@ -3,6 +3,8 @@
 namespace common\models;
 
 use Yii;
+use yii\db\ActiveRecord;
+use yii\behaviors\AttributeBehavior;
 
 /**
  * This is the model class for table "transaction".
@@ -17,7 +19,7 @@ use Yii;
  *
  * @property Invoice $invoice
  */
-class Transaction extends \yii\db\ActiveRecord
+class Transaction extends ActiveRecord
 {
     const TYPE_DEPOSIT = 0;
     const TYPE_WITHDRAWAL = 1;
@@ -41,6 +43,29 @@ class Transaction extends \yii\db\ActiveRecord
             [['invoice_id', 'user_id', 'type', 'amount', 'balance_after'], 'integer'],
             [['stamp'], 'safe'],
             [['invoice_id', 'user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Invoice::className(), 'targetAttribute' => ['invoice_id' => 'id']],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
+    {
+        return [
+            'balance_after' => [
+                'class' => AttributeBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'balance_after',
+                    ActiveRecord::EVENT_BEFORE_UPDATE => 'balance_after',
+                ],
+                'value' => function ($event) {
+                    $transaction = $event->sender;
+                    $amount = ($transaction->type == static::TYPE_DEPOSIT ? -1 : 1) * $transaction->amount;
+                    $transaction->user->balance += $amount;
+                    $transaction->user->save();
+                    return $transaction->user->balance;
+                },
+            ],
         ];
     }
 

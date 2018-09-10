@@ -14,13 +14,12 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'invoice_id')->textInput() ?>
 
-    <?= $form->field($model, 'stamp')->textInput() ?>
-
-    <?= $form->field($model, 'type')->textInput() ?>
+    <?= $form->field($model, 'type')->dropDownList([
+        $model::TYPE_DEPOSIT => 'Depost',
+        $model::TYPE_WITHDRAWAL => 'Withdrawal',
+    ]) ?>
 
     <?= $form->field($model, 'amount')->textInput() ?>
-
-    <?= $form->field($model, 'balance_after')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
