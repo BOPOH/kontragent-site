@@ -7,6 +7,7 @@ use common\models\User;
 use common\models\Invoice;
 use common\models\Transaction;
 use common\models\TransactionSearch;
+use yii\db\ActiveRecord;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
@@ -105,6 +106,31 @@ class TransactionController extends Controller
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
+        ]);
+    }
+
+    /**
+     * Creates a new Transaction model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionCreate()
+    {
+        $model = new Transaction();
+
+        $model->attachBehavior('stamp', [
+            'class' => \yii\behaviors\TimestampBehavior::className(),
+            'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['stamp'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['stamp'],
+            ],
+            'value' => date('Y-m-d H:i:s'),
+        ]);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+        return $this->render('create', [
+            'model' => $model,
         ]);
     }
 
