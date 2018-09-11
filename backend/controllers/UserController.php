@@ -60,6 +60,22 @@ class UserController extends Controller
         ]);
     }
 
+    public function actionSearch($q = null, $id = null)
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $out = ['results' => ['id' => '', 'text' => '']];
+        if ($q && $users = User::find()->where(['like', 'username', $q])->all()) {
+            $result = [];
+            foreach ($users as $user) {
+                $result[] = ['id' => $user->id, 'username' => $user->username];
+            }
+            $out['results'] = $result;
+        } elseif ($id) {
+            $out['results'] = ['id' => $id, 'text' => User::find($id)->username];
+        }
+        return $out;
+    }
+
     /**
      * Finds the User model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
