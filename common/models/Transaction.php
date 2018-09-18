@@ -42,7 +42,8 @@ class Transaction extends ActiveRecord
             [['invoice_id', 'user_id', 'type', 'amount', 'balance_after'], 'default', 'value' => null],
             [['invoice_id', 'user_id', 'type', 'amount', 'balance_after'], 'integer'],
             [['stamp'], 'safe'],
-            [['invoice_id', 'user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Invoice::className(), 'targetAttribute' => ['invoice_id' => 'id']],
+            [['invoice_id'], 'exist', 'skipOnError' => true, 'targetClass' => Invoice::className(), 'targetAttribute' => ['invoice_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
