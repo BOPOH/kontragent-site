@@ -61,6 +61,23 @@ class InvoiceController extends Controller
     }
 
     /**
+     * Creates a new Invoice model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionCreate()
+    {
+        $model = new Invoice();
+
+        if ($model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+        return $this->render('create', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
      * Finds the Invoice model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
